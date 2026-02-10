@@ -25,10 +25,21 @@ This is a Spring Boot application that provides a REST API to retrieve weather i
 - OpenWeatherMap API Key
 
 ## Configuration
-Update `src/main/resources/application.properties` with your API keys:
+The application uses environment variables for sensitive keys. You can set them in your IDE (IntelliJ/Eclipse) or terminal.
 
-```properties
-weather.api.key=YOUR_OPENWEATHER_API_KEY
+**Required Environment Variables:**
+- `OPENWEATHER_API_KEY`: Your OpenWeatherMap API Key.
+
+**Example (Terminal):**
+```bash
+export OPENWEATHER_API_KEY=your_actual_key_here
+./mvnw spring-boot:run
+```
+
+**Example (Powershell):**
+```powershell
+$env:OPENWEATHER_API_KEY="your_actual_key_here"
+./mvnw spring-boot:run
 ```
 
 ## Build and Run
