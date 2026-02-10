@@ -28,6 +28,22 @@ class WeatherControllerTest {
     private WeatherOrchestrator weatherOrchestrator;
 
     @Test
+    void getWeather_ShouldReturnBadRequest_WhenPincodeIsMissing() throws Exception {
+        mockMvc.perform(get("/api/weather")
+                .param("for_date", "2020-10-15")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getWeather_ShouldReturnBadRequest_WhenDateIsMissing() throws Exception {
+        mockMvc.perform(get("/api/weather")
+                .param("pincode", "411014")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void getWeather_ShouldReturnWeatherInfo() throws Exception {
         LocalDate date = LocalDate.of(2020, 10, 15);
         WeatherDTOs.WeatherResponse response = WeatherDTOs.WeatherResponse.builder()
