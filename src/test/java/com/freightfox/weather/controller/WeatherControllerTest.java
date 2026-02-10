@@ -32,7 +32,8 @@ class WeatherControllerTest {
         mockMvc.perform(get("/api/weather")
                 .param("for_date", "2020-10-15")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("BAD_REQUEST"));
     }
 
     @Test
@@ -40,7 +41,8 @@ class WeatherControllerTest {
         mockMvc.perform(get("/api/weather")
                 .param("pincode", "411014")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("BAD_REQUEST"));
     }
 
     @Test
