@@ -26,6 +26,12 @@ public class WeatherController {
 
     @GetMapping
     @Operation(summary = "Get Weather Info", description = "Retrieve weather information for a specific pincode and date.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Successfully retrieved weather information"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request parameters (e.g., missing pincode or date)"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Weather data not found for the given location/date"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<WeatherDTOs.WeatherResponse> getWeather(
             @RequestParam(name = "pincode") String pincode,
             @RequestParam(name = "for_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate forDate) {
