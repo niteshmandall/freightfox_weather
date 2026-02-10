@@ -64,13 +64,13 @@ Once the application is running, access Swagger UI at:
 **GET** `/api/weather`
 
 **Parameters:**
-- `pincode`: (String) e.g., `411014`
-- `for_date`: (Date `YYYY-MM-DD`) e.g., `2020-10-15`
+- `pincode`: (String) e.g., `411014` (Required)
+- `for_date`: (Date `YYYY-MM-DD`) e.g., `2020-10-15` (Required)
 
 **Example Request:**
 `GET http://localhost:8080/api/weather?pincode=411014&for_date=2020-10-15`
 
-**Example Response:**
+**Success Response (200 OK):**
 ```json
 {
   "pincode": "411014",
@@ -85,6 +85,28 @@ Once the application is running, access Swagger UI at:
 }
 ```
 
+**Error Response (400 Bad Request):**
+```json
+{
+  "timestamp": "2026-02-11T01:30:00",
+  "status": 400,
+  "error": "BAD_REQUEST",
+  "message": "Required request parameter 'pincode' for method parameter type String is not present"
+}
+```
+**Validation Error Response (400 Bad Request):**
+```json
+{
+  "timestamp": "2026-02-11T01:30:00",
+  "status": 400,
+  "error": "VALIDATION_ERROR",
+  "message": "Validation failed",
+  "details": {
+    "pincode": "must match \"^\\d{6}$\""
+  }
+}
+```
+
 ## Database Console
 Access H2 Console at:
 - [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
@@ -93,7 +115,20 @@ Access H2 Console at:
 - **Password**: `password`
 
 ## Testing
-Run unit and integration tests using:
+The application includes a comprehensive test suite covering unit, integration, and edge-case scenarios.
+
+**Run All Tests (Deep Testing):**
 ```bash
-./mvnw test
+./mvnw clean test
 ```
+
+**What is Tested:**
+1.  **Service Layer**: Mockito tests verify caching logic (DB vs API) and error handling.
+2.  **Controller Layer**: Integration tests verify API endpoints, including validation for missing parameters.
+3.  **Orchestrator**: Verifies coordination between Geocoding and Weather services.
+
+**Manual Verification (Postman):**
+1.  Start the app: `./mvnw spring-boot:run`
+2.  Import the collection or make a GET request to `http://localhost:8080/api/weather`.
+3.  Test with valid data (`pincode=411014`, `for_date=2020-10-15`).
+4.  Test with missing parameters to see standardized error responses.
